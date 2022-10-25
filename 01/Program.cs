@@ -1,19 +1,39 @@
-﻿internal class Program
+﻿// <summary>
+// This is a solution to the tic tac toe assignment.
+// </summary>
+class Program
 {
-    public static void putBoard(int[] squares)
+    static void Main(string[] args)
+    {
+        //Positive numbers indicate squares that haven't been played in.
+        //-1 indicates a move by X; -2 indicates a move by O
+        int[] board = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        displayBoard(board);
+
+        // Game Loop
+        gameLoop(board);
+
+        Console.WriteLine("Good game. Thanks for playing!\n");
+    }
+
+    // <summary>
+    // Displays the 3x3 board to the screen.
+    // </summary>
+    // <param name="board">The board</param>
+    static void displayBoard(int[] board)
     {
         Console.WriteLine();
-        for (int i = 0; i < squares.Length; i++)
+        for (int i = 0; i < board.Length; i++)
         {
-            if (squares[i] > 0)
+            if (board[i] > 0)
             {
-                Console.Write($" {squares[i]} ");
+                Console.Write($" {board[i]} ");
             }
-            else if (squares[i] == -1)
+            else if (board[i] == -1)
             {
                 Console.Write(" X ");
             }
-            else if (squares[i] == -2)
+            else if (board[i] == -2)
             {
                 Console.Write(" O ");
             }
@@ -22,7 +42,7 @@
             {
                 Console.Write("|");
             }
-            else if (i == squares.Length-1)
+            else if (i == board.Length-1)
             {
                 Console.WriteLine("\n");
             }
@@ -33,57 +53,11 @@
         }
     }
 
-    public static bool calculateEndGame(int[] squares)
-    {
-        // Horizontal win
-        if (squares[0] == squares[1] && squares[1] == squares[2])
-        {
-            return true;
-        }
-        else if (squares[3] == squares[4] && squares[4] == squares[5])
-        {
-            return true;
-        }
-        else if (squares[6] == squares[7] && squares[7] == squares[8])
-        {
-            return true;
-        }
-        // Vertical win
-        else if (squares[0] == squares[3] && squares[3] == squares[6])
-        {
-            return true;
-        }
-        else if (squares[1] == squares[4] && squares[4] == squares[7])
-        {
-            return true;
-        }
-        else if (squares[2] == squares[5] && squares[5] == squares[8])
-        {
-            return true;
-        }
-        // Diagonal win
-        else if (squares[0] == squares[4] && squares[4] == squares[8])
-        {
-            return true;
-        }
-        else if (squares[2] == squares[4] && squares[4] == squares[6])
-        {
-            return true;
-        }
-        else
-        {
-            if (squares[0] < 0 && squares[1] < 0 && squares[2] < 0
-                    && squares[3] < 0 && squares[4] < 0 && squares[5] < 0
-                    && squares[6] < 0 && squares[7] < 0 && squares[8] < 0)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static void gameLoop(int[] squares)
+    // <summary>
+    // Runs the game loop until the game board is full or somebody wins.
+    // </summary>
+    // <param name="board">The board</param>
+    static void gameLoop(int[] board)
     {
         bool gameOver = false;
         int inputSquare;
@@ -99,16 +73,16 @@
             {
                 Console.WriteLine("Please enter a valid square number (1-9).");
             }
-            else if (squares[inputSquare-1] < 0)
+            else if (board[inputSquare-1] < 0)
             {
                 Console.WriteLine("That square has already been taken. Please choose a different one.\n");
             }
-            } while ((inputSquare < 1 || inputSquare > 9) || squares[inputSquare-1] < 0);
+            } while ((inputSquare < 1 || inputSquare > 9) || board[inputSquare-1] < 0);
             
-            squares[inputSquare-1] = -1;
+            board[inputSquare-1] = -1;
 
-            putBoard(squares);
-            gameOver = calculateEndGame(squares);
+            displayBoard(board);
+            gameOver = calculateEndGame(board);
             if (gameOver)
             {
                 break;
@@ -123,32 +97,65 @@
             {
                 Console.WriteLine("Please enter a valid square number (1-9).");
             }
-            else if (squares[inputSquare-1] < 0)
+            else if (board[inputSquare-1] < 0)
             {
                 Console.WriteLine("That square has already been taken. Please choose a different one.\n");
             }
-            } while ((inputSquare < 1 || inputSquare > 9) || (inputSquare > 0 && squares[inputSquare-1] < 0));
+            } while ((inputSquare < 1 || inputSquare > 9) || (inputSquare > 0 && board[inputSquare-1] < 0));
             
-            squares[inputSquare-1] = -2;
+            board[inputSquare-1] = -2;
 
-            putBoard(squares);
-            gameOver = calculateEndGame(squares);
+            displayBoard(board);
+            gameOver = calculateEndGame(board);
             if (gameOver)
             {
                 break;
             }
         }
     }
-    private static void Main(string[] args)
+
+    // <summary>
+    // Determines if the game has ended, either through a win or a tie.
+    // </summary>
+    // <param name="board">The board</param>
+    // <returns>True if the game should end</returns>
+    static bool calculateEndGame(int[] board)
     {
-        //Positive numbers indicate squares that haven't been played in.
-        //-1 indicates a move by X; -2 indicates a move by O
-        int[] squares = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        putBoard(squares);
+        // Horizontal win
+        if ((board[0] == board[1] && board[1] == board[2])
+            || (board[3] == board[4] && board[4] == board[5])
+            || (board[6] == board[7] && board[7] == board[8])
+            )
+        {
+            return true;
+        }
+        // Vertical win
+        else if ((board[0] == board[3] && board[3] == board[6])
+                 || (board[1] == board[4] && board[4] == board[7])
+                 || (board[2] == board[5] && board[5] == board[8])
+                 )
+        {
+            return true;
+        }
+        // Diagonal win
+        else if ((board[0] == board[4] && board[4] == board[8])
+                 || (board[2] == board[4] && board[4] == board[6])
+                 )
+        {
+            return true;
+        }
+        else
+        {
+            // Board full, tie
+            if (board[0] < 0 && board[1] < 0 && board[2] < 0
+                && board[3] < 0 && board[4] < 0 && board[5] < 0
+                && board[6] < 0 && board[7] < 0 && board[8] < 0
+                )
+            {
+                return true;
+            }
+        }
 
-        // Game Loop
-        gameLoop(squares);
-
-        Console.WriteLine("Good game. Thanks for playing!\n");
+        return false;
     }
 }
