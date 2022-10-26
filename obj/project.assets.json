@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\natha\\Desktop\\School\\Fall22\\CSE210\\cse210-01\\01.csproj",
-      "projectName": "01",
-      "projectPath": "C:\\Users\\natha\\Desktop\\School\\Fall22\\CSE210\\cse210-01\\01.csproj",
+      "projectUniqueName": "C:\\Users\\natha\\Desktop\\School\\Fall22\\CSE210\\cse210-01\\cse210-01.csproj",
+      "projectName": "cse210-01",
+      "projectPath": "C:\\Users\\natha\\Desktop\\School\\Fall22\\CSE210\\cse210-01\\cse210-01.csproj",
       "packagesPath": "C:\\Users\\natha\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\natha\\Desktop\\School\\Fall22\\CSE210\\cse210-01\\obj\\",
       "projectStyle": "PackageReference",

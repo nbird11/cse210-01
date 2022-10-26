@@ -1,4 +1,6 @@
-﻿// <summary>
+﻿using System;
+
+// <summary>
 // This is a solution to the tic tac toe assignment.
 // </summary>
 class Program
