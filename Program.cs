@@ -1,4 +1,6 @@
-﻿namespace CSE210_01
+﻿using System;
+
+namespace CSE210_01
 {
     // <summary>
     // This is a solution to the tic tac toe assignment.
