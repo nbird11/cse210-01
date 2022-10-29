@@ -16,8 +16,6 @@ namespace CSE210_01
 
             // Game Loop
             gameLoop(board);
-
-            Console.WriteLine("Good game. Thanks for playing!\n");
         }
 
         // <summary>
@@ -35,11 +33,15 @@ namespace CSE210_01
                 }
                 else if (board[i] == -1)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write(" X ");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 else if (board[i] == -2)
                 {
+                    Console.ForegroundColor = ConsoleColor.Blue;
                     Console.Write(" O ");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
 
                 if (!((i+1) % 3 == 0))
@@ -64,6 +66,7 @@ namespace CSE210_01
         public static void gameLoop(int[] board)
         {
             bool gameOver = false;
+            string winner;
             int inputSquare;
 
             while (!(gameOver))
@@ -71,7 +74,10 @@ namespace CSE210_01
                 //X's turn
                 do
                 {
-                Console.Write("X's turn to choose a square (1-9): ");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("X");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("'s turn to choose a square (1-9): ");
                 inputSquare = Convert.ToInt32(Console.ReadLine());
                 if (inputSquare < 1 || inputSquare > 9)
                 {
@@ -86,7 +92,8 @@ namespace CSE210_01
                 board[inputSquare-1] = -1;
 
                 displayBoard(board);
-                gameOver = calculateEndGame(board);
+                winner = calculateWinner(board);
+                gameOver = calculateEndGame(winner);
                 if (gameOver)
                 {
                     break;
@@ -95,7 +102,10 @@ namespace CSE210_01
                 //O's turn
                 do
                 {
-                Console.Write("O's turn to choose a square (1-9): ");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write("O");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("'s turn to choose a square (1-9): ");
                 inputSquare = Convert.ToInt32(Console.ReadLine());
                 if (inputSquare < 1 || inputSquare > 9)
                 {
@@ -110,7 +120,8 @@ namespace CSE210_01
                 board[inputSquare-1] = -2;
 
                 displayBoard(board);
-                gameOver = calculateEndGame(board);
+                winner = calculateWinner(board);
+                gameOver = calculateEndGame(winner);
                 if (gameOver)
                 {
                     break;
@@ -123,30 +134,63 @@ namespace CSE210_01
         // </summary>
         // <param name="board">The board</param>
         // <returns>True if the game should end</returns>
-        public static bool calculateEndGame(int[] board)
+        public static string calculateWinner(int[] board)
         {
             // Horizontal win
-            if ((board[0] == board[1] && board[1] == board[2])
-                || (board[3] == board[4] && board[4] == board[5])
-                || (board[6] == board[7] && board[7] == board[8])
+            // X
+            if (
+                board[0] == -1 && (board[0] == board[1] && board[1] == board[2])
+                || board[3] == -1 && (board[3] == board[4] && board[4] == board[5])
+                || board[6] == -1 && (board[6] == board[7] && board[7] == board[8])
                 )
             {
-                return true;
+                
+                return "X";
+            }
+            // O
+            else if (
+                board[0] == -2 && (board[0] == board[1] && board[1] == board[2])
+                || board[3] == -2 && (board[3] == board[4] && board[4] == board[5])
+                || board[6] == -2 && (board[6] == board[7] && board[7] == board[8])
+                )
+            {
+                return "O";
             }
             // Vertical win
-            else if ((board[0] == board[3] && board[3] == board[6])
-                    || (board[1] == board[4] && board[4] == board[7])
-                    || (board[2] == board[5] && board[5] == board[8])
+            // X
+            else if (
+                    board[0] == -1 && (board[0] == board[3] && board[3] == board[6])
+                    || board[1] == -1 && (board[1] == board[4] && board[4] == board[7])
+                    || board[2] == -1 && (board[2] == board[5] && board[5] == board[8])
                     )
             {
-                return true;
+                return "X";
+            }
+            // O
+            else if (
+                    board[0] == -2 && (board[0] == board[3] && board[3] == board[6])
+                    || board[1] == -2 && (board[1] == board[4] && board[4] == board[7])
+                    || board[2] == -2 && (board[2] == board[5] && board[5] == board[8])
+                    )
+            {
+                return "O";
             }
             // Diagonal win
-            else if ((board[0] == board[4] && board[4] == board[8])
-                    || (board[2] == board[4] && board[4] == board[6])
+            // X
+            else if (
+                    board[0] == -1 && (board[0] == board[4] && board[4] == board[8])
+                    || board[2] == -1 && (board[2] == board[4] && board[4] == board[6])
                     )
             {
-                return true;
+                return "X";
+            }
+            // O
+            else if (
+                    board[0] == -2 && (board[0] == board[4] && board[4] == board[8])
+                    || board[2] == -2 && (board[2] == board[4] && board[4] == board[6])
+                    )
+            {
+                return "O";
             }
             else
             {
@@ -156,10 +200,39 @@ namespace CSE210_01
                     && board[6] < 0 && board[7] < 0 && board[8] < 0
                     )
                 {
-                    return true;
+                    return "tie";
                 }
             }
 
+            return "false";
+        }
+
+        public static bool calculateEndGame(string winner)
+        {
+            if (winner == "tie")
+            {
+                Console.WriteLine("Tie game, no winner.");
+                return true;
+            }
+            else if (winner == "X")
+            {
+                Console.Write("Player ");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("X");
+                Console.ForegroundColor = ConsoleColor.White; 
+                Console.WriteLine(" is the winner!");
+                return true;
+            }
+            else if (winner == "O")
+            {
+                Console.Write("Player ");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write("O");
+                Console.ForegroundColor = ConsoleColor.White; 
+                Console.WriteLine(" is the winner!");
+                return true;
+            }
+            
             return false;
         }
     }
