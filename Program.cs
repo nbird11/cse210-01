@@ -204,7 +204,7 @@ namespace CSE210_01
                 }
             }
 
-            return "false";
+            return "";
         }
 
         public static bool calculateEndGame(string winner)
